@@ -16,8 +16,9 @@ import { ThemeToggle } from '@/components/layout/ThemeToggle';
 import { format, parseISO } from 'date-fns';
 import { toast } from 'sonner';
 import { useFestival } from '@/hooks/useFestival';
-import { usePlanStore } from '@/store/planStore';
-import { useFavoritesStore } from '@/store/favoritesStore';
+import { useFavorites, useToggleFavorite } from '@/hooks/useFavorites';
+import { usePlan, useTogglePlan } from '@/hooks/usePlan';
+import { intervalOverlap } from '@/lib/utils';
 import { cn } from '@/lib/utils';
 
 export function FestivalDetailPage() {
@@ -29,8 +30,32 @@ export function FestivalDetailPage() {
   const [activeDay, setActiveDay] = useState<number>(1);
   const [sidebarOpen, setSidebarOpen] = useState(false);
 
-  const planStore = usePlanStore();
-  const favStore = useFavoritesStore();
+  const { data: favorites = [] } = useFavorites();
+  const { data: planItems = [] } = usePlan(festival?.id ?? '');
+  const { add: addFav, remove: removeFav } = useToggleFavorite();
+  const { add: addPlan, remove: removePlan } = useTogglePlan(
+    festival?.id ?? '',
+  );
+
+  const favoriteIds = new Set(favorites.map((f) => f.id));
+  const planSetIds = new Set(planItems.map((p) => p.setId));
+
+  const conflictIds = new Set<string>();
+  for (let i = 0; i < planItems.length; i++) {
+    for (let j = i + 1; j < planItems.length; j++) {
+      const a = planItems[i].set;
+      const b = planItems[j].set;
+      if (
+        intervalOverlap(
+          { ...a, id: a.id, artist: a.artist },
+          { ...b, id: b.id, artist: b.artist },
+        )
+      ) {
+        conflictIds.add(a.id);
+        conflictIds.add(b.id);
+      }
+    }
+  }
 
   const currentStageId = activeStageId ?? festival?.stages?.[0]?.id ?? null;
 
@@ -52,8 +77,6 @@ export function FestivalDetailPage() {
           new Date(a.startTime).getTime() - new Date(b.startTime).getTime(),
       );
   }, [festival, currentStageId, activeDay]);
-
-  const conflictIds = planStore.getConflictIds();
 
   if (isPending) {
     return (
@@ -85,7 +108,21 @@ export function FestivalDetailPage() {
 
   return (
     <div className='min-h-screen bg-background'>
-      <PlanSidebar open={sidebarOpen} onClose={() => setSidebarOpen(false)} />
+      <PlanSidebar
+        open={sidebarOpen}
+        onClose={() => setSidebarOpen(false)}
+        items={planItems}
+        onRemove={(setId) => {
+          removePlan.mutate(setId);
+          toast('Removed from plan');
+        }}
+        onClear={async () => {
+          await Promise.all(
+            planItems.map((item) => removePlan.mutateAsync(item.setId)),
+          );
+          toast('Plan cleared');
+        }}
+      />
       {/* Back nav */}
       <div className='border-b border-border bg-background sticky top-0 z-10'>
         <div className='max-w-4xl mx-auto px-4 h-12 flex items-center justify-between'>
@@ -104,9 +141,9 @@ export function FestivalDetailPage() {
             >
               <CalendarDays className='w-3.5 h-3.5' />
               My Plan
-              {planStore.items.length > 0 && (
+              {planItems.length > 0 && (
                 <span className='bg-background/20 text-background text-xs rounded-full px-1.5 py-0.5 font-medium'>
-                  {planStore.items.length}
+                  {planItems.length}
                 </span>
               )}
             </button>
@@ -216,8 +253,8 @@ export function FestivalDetailPage() {
         ) : (
           <div className='space-y-2'>
             {currentSets.map((set) => {
-              const inPlan = planStore.hasItem(set.id);
-              const isFav = favStore.has(set.artist.id);
+              const inPlan = planSetIds.has(set.id);
+              const isFav = favoriteIds.has(set.artist.id);
               const isConflict = conflictIds.has(set.id) && inPlan;
 
               return (
@@ -263,12 +300,13 @@ export function FestivalDetailPage() {
                   <div className='flex items-center gap-2 shrink-0'>
                     <button
                       onClick={() => {
-                        favStore.toggle(set.artist.id);
-                        toast(
-                          isFav
-                            ? 'Removed from favorites'
-                            : '⭐ Added to favorites',
-                        );
+                        if (isFav) {
+                          removeFav.mutate(set.artist.id);
+                          toast('Removed from favorites');
+                        } else {
+                          addFav.mutate(set.artist.id);
+                          toast('⭐ Added to favorites');
+                        }
                       }}
                       className={cn(
                         'w-8 h-8 rounded-md border flex items-center justify-center transition-colors',
@@ -288,29 +326,38 @@ export function FestivalDetailPage() {
                       />
                     </button>
                     <button
+                      // onClick={() => {
+                      //   if (inPlan) {
+                      //     planStore.removeItem(set.id);
+                      //     toast('Removed from plan');
+                      //   } else {
+                      //     planStore.addItem(
+                      //       {
+                      //         id: set.id,
+                      //         festivalId: set.festivalId,
+                      //         stageId: set.stageId,
+                      //         startTime: set.startTime,
+                      //         endTime: set.endTime,
+                      //         day: set.day,
+                      //         artist: set.artist,
+                      //       },
+                      //       set.festivalId,
+                      //     );
+                      //     const conflicts = planStore.getConflicts();
+                      //     toast(
+                      //       conflicts.length
+                      //         ? '⚠ Conflict detected — check your plan'
+                      //         : '📅 Added to plan',
+                      //     );
+                      //   }
+                      // }}
                       onClick={() => {
                         if (inPlan) {
-                          planStore.removeItem(set.id);
+                          removePlan.mutate(set.id);
                           toast('Removed from plan');
                         } else {
-                          planStore.addItem(
-                            {
-                              id: set.id,
-                              festivalId: set.festivalId,
-                              stageId: set.stageId,
-                              startTime: set.startTime,
-                              endTime: set.endTime,
-                              day: set.day,
-                              artist: set.artist,
-                            },
-                            set.festivalId,
-                          );
-                          const conflicts = planStore.getConflicts();
-                          toast(
-                            conflicts.length
-                              ? '⚠ Conflict detected — check your plan'
-                              : '📅 Added to plan',
-                          );
+                          addPlan.mutate(set.id);
+                          toast('📅 Added to plan');
                         }
                       }}
                       className={cn(
