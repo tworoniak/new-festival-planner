@@ -1,5 +1,5 @@
 {
-  "name": "festival-planner",
+  "name": "setlist",
   "private": true,
   "scripts": {
     "dev": "pnpm --parallel -r dev",

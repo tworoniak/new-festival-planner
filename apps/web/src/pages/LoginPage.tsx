@@ -41,7 +41,7 @@ export function LoginPage() {
         <div className='text-center mb-8'>
           <h1 className='text-2xl font-medium'>Welcome back</h1>
           <p className='text-sm text-muted-foreground mt-2'>
-            Sign in to your Festival Planner account
+            Sign in to your SetList account
           </p>
         </div>
 
