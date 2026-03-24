@@ -45,7 +45,9 @@ export function LandingPage() {
             <div className='w-7 h-7 bg-white/15 backdrop-blur-sm rounded-md flex items-center justify-center border border-white/20'>
               <Music className='w-4 h-4 text-white' />
             </div>
-            <span className='font-medium text-sm text-white'>SetList</span>
+            <span className='font-medium text-sm text-white'>
+              SetList - Festival Planner
+            </span>
           </div>
           <div className='flex items-center gap-2'>
             <ThemeToggle className='border-white/20 text-white hover:bg-white/10' />
@@ -76,17 +78,16 @@ export function LandingPage() {
 
         <div className='absolute inset-0 flex flex-col items-center justify-center px-4 text-center'>
           <div className='flex items-center gap-2 mb-4'>
-            <div className='w-8 h-8 bg-white/15 backdrop-blur-sm rounded-md flex items-center justify-center border border-white/20'>
+            {/* <div className='w-8 h-8 bg-white/15 backdrop-blur-sm rounded-md flex items-center justify-center border border-white/20'>
               <Music className='w-5 h-5 text-white' />
-            </div>
-            <span className='text-white/80 text-sm font-medium tracking-wide uppercase'>
+            </div> */}
+            <span className='logo-text animated-gradient-text tracking-wide'>
               SetList
             </span>
           </div>
-          <h1 className='text-4xl md:text-6xl font-medium text-white leading-tight'>
+          <h1 className='text-4xl md:text-4xl font-medium text-white leading-tight'>
             Your festival,
-            <br />
-            your schedule.
+            <br className='block md:hidden' /> your schedule.
           </h1>
           <p className='text-white/70 text-sm md:text-base mt-4 max-w-md'>
             Explore lineups, build your schedule, and never miss a set.
