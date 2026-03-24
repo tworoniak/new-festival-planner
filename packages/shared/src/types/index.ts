@@ -23,9 +23,9 @@ export interface Stage {
 export interface Artist {
   id: string;
   name: string;
-  imageUrl?: string;
-  genre?: string;
-  bio?: string;
+  imageUrl?: string | null;
+  genre?: string | null;
+  bio?: string | null;
 }
 
 export interface Set {
