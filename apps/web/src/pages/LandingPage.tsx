@@ -4,6 +4,7 @@ import { MapPin, Calendar, Music } from 'lucide-react';
 import { useFestivals } from '@/hooks/useFestivals';
 import { cn } from '@/lib/utils';
 import { format } from 'date-fns';
+import { ThemeToggle } from '@/components/layout/ThemeToggle';
 
 export function LandingPage() {
   const navigate = useNavigate();
@@ -31,20 +32,25 @@ export function LandingPage() {
             <div className='w-7 h-7 bg-foreground rounded-md flex items-center justify-center'>
               <Music className='w-4 h-4 text-background' />
             </div>
-            <span className='font-medium text-sm'>Festival Planner</span>
+            <span className='font-medium text-sm'>
+              SetList - Festival Planner
+            </span>
           </div>
-          <button
-            onClick={async () => {
-              await fetch('/api/auth/sign-out', {
-                method: 'POST',
-                credentials: 'include',
-              });
-              navigate('/login');
-            }}
-            className='text-sm text-muted-foreground hover:text-foreground transition-colors'
-          >
-            Sign out
-          </button>
+          <div className='flex items-center gap-2'>
+            <ThemeToggle />
+            <button
+              onClick={async () => {
+                await fetch('/api/auth/sign-out', {
+                  method: 'POST',
+                  credentials: 'include',
+                });
+                navigate('/login');
+              }}
+              className='text-sm text-muted-foreground hover:text-foreground transition-colors'
+            >
+              Sign out
+            </button>
+          </div>
         </div>
       </header>
 
@@ -133,7 +139,7 @@ export function LandingPage() {
               {filtered.map((festival) => (
                 <div
                   key={festival.id}
-                  className='rounded-lg border border-border bg-card overflow-hidden cursor-pointer group transition-shadow hover:shadow-md'
+                  className='flex flex-col rounded-lg border border-border bg-card overflow-hidden cursor-pointer group transition-shadow hover:shadow-md'
                   onClick={() => navigate(`/festival/${festival.slug}`)}
                 >
                   {/* Image */}
@@ -152,7 +158,7 @@ export function LandingPage() {
                   </div>
 
                   {/* Body */}
-                  <div className='p-4'>
+                  <div className='p-4 flex flex-col flex-1'>
                     <h3 className='font-medium text-sm leading-tight'>
                       {festival.name}
                     </h3>
@@ -175,15 +181,17 @@ export function LandingPage() {
                       </div>
                     </div>
 
-                    <button
-                      className='mt-4 w-full h-8 rounded-md bg-primary text-primary-foreground text-xs font-medium hover:opacity-90 transition-opacity'
-                      onClick={(e) => {
-                        e.stopPropagation();
-                        navigate(`/festival/${festival.slug}`);
-                      }}
-                    >
-                      View Schedule
-                    </button>
+                    <div className='mt-auto pt-4'>
+                      <button
+                        className='w-full h-8 rounded-md bg-primary text-primary-foreground text-xs font-medium hover:opacity-90 transition-opacity'
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          navigate(`/festival/${festival.slug}`);
+                        }}
+                      >
+                        View Schedule
+                      </button>
+                    </div>
                   </div>
                 </div>
               ))}

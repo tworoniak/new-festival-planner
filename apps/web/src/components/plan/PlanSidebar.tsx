@@ -49,7 +49,7 @@ export function PlanSidebar({ open, onClose }: PlanSidebarProps) {
         className={cn(
           'fixed z-50 bg-sidebar border-sidebar-border transition-transform duration-300',
           // Mobile — bottom drawer
-          'bottom-0 left-0 right-0 rounded-t-2xl border-t max-h-[70vh] overflow-y-auto',
+          'bottom-0 left-0 right-0 rounded-t-2xl border-t max-h-full overflow-y-auto',
           'lg:bottom-auto lg:top-14.25 lg:left-auto lg:right-0 lg:w-80 lg:h-[calc(100vh-57px)]',
           'lg:rounded-none lg:border-t-0 lg:border-l lg:overflow-y-auto',
           // Open/closed state

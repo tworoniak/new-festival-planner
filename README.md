@@ -1,4 +1,4 @@
-# 🎪 Festival Planner
+# 🎪 SetList - Festival Planner
 
 A full-stack music festival discovery and scheduling portal. Browse festivals, explore stage lineups, favorite artists, build a personal set-time plan, and get real-time conflict detection when sets overlap.
 

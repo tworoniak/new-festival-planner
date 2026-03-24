@@ -11,6 +11,7 @@ import {
 } from 'lucide-react';
 
 import { PlanSidebar } from '@/components/plan/PlanSidebar';
+import { ThemeToggle } from '@/components/layout/ThemeToggle';
 
 import { format, parseISO } from 'date-fns';
 import { toast } from 'sonner';
@@ -95,18 +96,21 @@ export function FestivalDetailPage() {
             <ArrowLeft className='w-4 h-4' />
             Back to Festivals
           </button>
-          <button
-            onClick={() => setSidebarOpen(true)}
-            className='flex items-center gap-2 text-sm font-medium bg-foreground text-background px-3 h-8 rounded-md hover:opacity-90 transition-opacity'
-          >
-            <CalendarDays className='w-3.5 h-3.5' />
-            My Plan
-            {planStore.items.length > 0 && (
-              <span className='bg-background/20 text-background text-xs rounded-full px-1.5 py-0.5 font-medium'>
-                {planStore.items.length}
-              </span>
-            )}
-          </button>
+          <div className='flex items-center gap-2'>
+            <ThemeToggle />
+            <button
+              onClick={() => setSidebarOpen(true)}
+              className='flex items-center gap-2 text-sm font-medium bg-foreground text-background px-3 h-8 rounded-md hover:opacity-90 transition-opacity'
+            >
+              <CalendarDays className='w-3.5 h-3.5' />
+              My Plan
+              {planStore.items.length > 0 && (
+                <span className='bg-background/20 text-background text-xs rounded-full px-1.5 py-0.5 font-medium'>
+                  {planStore.items.length}
+                </span>
+              )}
+            </button>
+          </div>
         </div>
       </div>
 
