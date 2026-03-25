@@ -8,6 +8,7 @@ import setsRoute from './routes/sets.js';
 import favoritesRoute from './routes/favorites.js';
 import plansRoute from './routes/plans.js';
 import authRoute from './routes/auth.js';
+import stagesRoute from './routes/stages.js';
 
 const app = new Hono();
 
@@ -26,6 +27,7 @@ app.route('/api/artists', artistsRoute);
 app.route('/api/sets', setsRoute);
 app.route('/api/me/favorites', favoritesRoute);
 app.route('/api/me/plans', plansRoute);
+app.route('/api/stages', stagesRoute);
 
 app.get('/health', (c) => c.json({ ok: true }));
 

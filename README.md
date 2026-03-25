@@ -1,4 +1,4 @@
-# 🎪 SetList - Festival Planner
+# 🎪 SetList — Festival Planner
 
 A full-stack music festival discovery and scheduling portal. Browse festivals, explore stage lineups, favorite artists, build a personal set-time plan, and get real-time conflict detection when sets overlap.
 
@@ -19,13 +19,12 @@ A full-stack music festival discovery and scheduling portal. Browse festivals, e
 | Framer Motion         | ^11     | Page transitions & UI animations                      |
 | Lucide React          | ^0.400  | Icon system                                           |
 | Sonner                | ^1      | Toast notifications                                   |
-| Zustand               | ^5      | Client state (theme, favorites, plan)                 |
+| Zustand               | ^5      | Client state (theme)                                  |
 | TanStack Query        | ^5      | Server state, data fetching & caching                 |
 | React Hook Form       | ^7      | Form state management                                 |
 | Zod                   | ^3      | Schema validation (forms + API)                       |
 | date-fns              | ^3      | Date formatting & conflict detection                  |
 | clsx + tailwind-merge | latest  | Conditional classname utility                         |
-| TanStack Table        | ^8      | Admin data tables (CRUD views)                        |
 
 ### Backend (`apps/api`)
 
@@ -35,7 +34,6 @@ A full-stack music festival discovery and scheduling portal. Browse festivals, e
 | Neon        | latest  | Serverless PostgreSQL database             |
 | Drizzle ORM | ^0.30   | Type-safe query builder + migrations       |
 | Better Auth | ^1      | Authentication (email/password, sessions)  |
-| Cloudinary  | ^2      | Festival & artist image hosting            |
 | Zod         | ^3      | Request/response validation                |
 
 ### Shared (`packages/shared`)
@@ -61,38 +59,23 @@ festival-planner/
 ├── apps/
 │   ├── web/                              # Vite + React frontend
 │   │   ├── src/
-│   │   │   ├── assets/
 │   │   │   ├── components/
-│   │   │   │   ├── ui/                   # shadcn/ui primitives (auto-generated)
 │   │   │   │   ├── layout/
-│   │   │   │   │   ├── Header.tsx
-│   │   │   │   │   ├── Footer.tsx
 │   │   │   │   │   └── ThemeToggle.tsx
-│   │   │   │   ├── festivals/
-│   │   │   │   │   ├── FestivalCard.tsx
-│   │   │   │   │   ├── FestivalGrid.tsx
-│   │   │   │   │   └── FestivalHero.tsx
-│   │   │   │   ├── schedule/
-│   │   │   │   │   ├── DaySelector.tsx
-│   │   │   │   │   ├── StageTabs.tsx
-│   │   │   │   │   ├── SetCard.tsx
-│   │   │   │   │   └── ConflictBadge.tsx
 │   │   │   │   └── plan/
-│   │   │   │       ├── PlanSidebar.tsx   # Desktop right sidebar
-│   │   │   │       ├── PlanDrawer.tsx    # Mobile bottom drawer
-│   │   │   │       ├── PlanItem.tsx
-│   │   │   │       └── ConflictAlert.tsx
+│   │   │   │       └── PlanSidebar.tsx
 │   │   │   ├── hooks/
-│   │   │   │   ├── useFestivals.ts       # TanStack Query hooks
-│   │   │   │   ├── useFestivalDetail.ts
+│   │   │   │   ├── useFestivals.ts
+│   │   │   │   ├── useFestival.ts
 │   │   │   │   ├── useFavorites.ts
-│   │   │   │   ├── useFestivalPlan.ts
-│   │   │   │   └── useConflicts.ts
+│   │   │   │   ├── usePlan.ts
+│   │   │   │   ├── useAdminFestivals.ts
+│   │   │   │   ├── useAdminArtists.ts
+│   │   │   │   └── useAdminSchedule.ts
 │   │   │   ├── lib/
-│   │   │   │   ├── api.ts                # Fetch wrapper + base URL
-│   │   │   │   ├── auth-client.ts        # Better Auth client instance
-│   │   │   │   ├── queryClient.ts        # TanStack Query client config
-│   │   │   │   └── utils.ts              # clsx + twMerge helper (cn())
+│   │   │   │   ├── auth-client.ts
+│   │   │   │   ├── queryClient.ts
+│   │   │   │   └── utils.ts
 │   │   │   ├── pages/
 │   │   │   │   ├── LandingPage.tsx
 │   │   │   │   ├── FestivalDetailPage.tsx
@@ -106,39 +89,38 @@ festival-planner/
 │   │   │   │       ├── ArtistFormPage.tsx
 │   │   │   │       └── ScheduleAdminPage.tsx
 │   │   │   ├── routes/
-│   │   │   │   ├── index.tsx             # Router config
-│   │   │   │   └── ProtectedRoute.tsx    # Auth + role guard
+│   │   │   │   ├── index.tsx
+│   │   │   │   └── ProtectedRoute.tsx
 │   │   │   ├── store/
-│   │   │   │   ├── themeStore.ts         # Dark/light mode (persisted)
-│   │   │   │   ├── favoritesStore.ts     # Starred artists
-│   │   │   │   └── planStore.ts          # Plan items + conflict detection
-│   │   │   ├── types/                    # Re-exports from shared package
+│   │   │   │   └── themeStore.ts
+│   │   │   ├── styles/
+│   │   │   │   └── theme.css
 │   │   │   ├── App.tsx
 │   │   │   └── main.tsx
 │   │   ├── index.html
 │   │   ├── vite.config.ts
-│   │   ├── tailwind.config.ts
-│   │   ├── components.json               # shadcn/ui config
+│   │   ├── components.json
 │   │   └── tsconfig.json
 │   │
 │   └── api/                              # Hono API server
 │       ├── src/
 │       │   ├── db/
-│       │   │   ├── schema.ts             # Drizzle table definitions
-│       │   │   ├── client.ts             # Neon + Drizzle client
+│       │   │   ├── schema.ts
+│       │   │   ├── client.ts
+│       │   │   ├── seed.ts
 │       │   │   └── migrations/
 │       │   ├── routes/
-│       │   │   ├── auth.ts               # Better Auth handler
-│       │   │   ├── festivals.ts          # GET /festivals, GET /festivals/:slug
-│       │   │   ├── stages.ts             # CRUD /festivals/:id/stages
-│       │   │   ├── artists.ts            # CRUD /artists
-│       │   │   ├── sets.ts               # CRUD /festivals/:id/sets
-│       │   │   ├── favorites.ts          # POST/DELETE /me/favorites
-│       │   │   └── plans.ts              # GET/POST/DELETE /me/plans
+│       │   │   ├── auth.ts
+│       │   │   ├── festivals.ts
+│       │   │   ├── stages.ts
+│       │   │   ├── artists.ts
+│       │   │   ├── sets.ts
+│       │   │   ├── favorites.ts
+│       │   │   └── plans.ts
 │       │   ├── middleware/
-│       │   │   ├── auth.ts               # Session validation middleware
-│       │   │   └── adminOnly.ts          # Role check middleware
-│       │   └── index.ts                  # Hono app entry
+│       │   │   ├── auth.ts
+│       │   │   └── adminOnly.ts
+│       │   └── index.ts
 │       ├── drizzle.config.ts
 │       └── tsconfig.json
 │
@@ -152,7 +134,7 @@ festival-planner/
 │           └── types/
 │               └── index.ts
 │
-├── package.json                          # pnpm workspace root
+├── package.json
 ├── pnpm-workspace.yaml
 └── tsconfig.base.json
 ```
@@ -164,22 +146,22 @@ festival-planner/
 ```
 festivals        stages           artists
 ─────────        ──────           ───────
-id               id               id
+id (uuid)        id (uuid)        id (uuid)
 slug             festival_id      name
 name             name             image_url
 description      order            genre
 short_desc                        bio
-start_date       sets
+start_date       sets             created_at
 end_date         ────
-location         id
-image_url        festival_id
-hero_image_url   stage_id
-created_at       artist_id
-                 start_time
-                 end_time
-                 day
-
-user_favorites   user_plan_items
+location         id (uuid)        users (Better Auth)
+image_url        festival_id      ──────────────────
+hero_image_url   stage_id         id
+created_at       artist_id        name
+                 start_time       email
+                 end_time         email_verified
+                 day              role
+                                  image
+user_favorites   user_plan_items  created_at
 ──────────────   ───────────────
 user_id          id
 artist_id        user_id
@@ -211,7 +193,7 @@ artist_id        user_id
 | Route                           | Component            | Notes                           |
 | ------------------------------- | -------------------- | ------------------------------- |
 | `/admin`                        | `AdminLayout`        | Redirects to `/admin/festivals` |
-| `/admin/festivals`              | `FestivalsAdminPage` | TanStack Table, all festivals   |
+| `/admin/festivals`              | `FestivalsAdminPage` | All festivals table             |
 | `/admin/festivals/new`          | `FestivalFormPage`   | Create festival                 |
 | `/admin/festivals/:id/edit`     | `FestivalFormPage`   | Edit festival                   |
 | `/admin/festivals/:id/schedule` | `ScheduleAdminPage`  | Manage stages + sets            |
@@ -226,39 +208,39 @@ artist_id        user_id
 ### Festivals
 
 ```
-GET    /api/festivals                    List all (filterable: ?year=2026)
-GET    /api/festivals/:slug              Festival + stages + sets
-POST   /api/festivals                    Create (admin)
-PUT    /api/festivals/:id                Update (admin)
-DELETE /api/festivals/:id                Delete (admin)
+GET    /api/festivals              List all (filterable: ?year=2026)
+GET    /api/festivals/:slug        Festival + stages + sets
+POST   /api/festivals              Create (admin)
+PUT    /api/festivals/:id          Update (admin)
+DELETE /api/festivals/:id          Delete (admin)
 ```
 
 ### Stages
 
 ```
-GET    /api/festivals/:id/stages         List stages for festival
-POST   /api/festivals/:id/stages         Create stage (admin)
-PUT    /api/stages/:id                   Update stage (admin)
-DELETE /api/stages/:id                   Delete stage (admin)
+GET    /api/stages?festivalId=     List stages for festival
+POST   /api/stages                 Create stage (admin)
+PUT    /api/stages/:id             Update stage (admin)
+DELETE /api/stages/:id             Delete stage (admin)
 ```
 
 ### Artists
 
 ```
-GET    /api/artists                      List all artists
-GET    /api/artists/:id                  Single artist
-POST   /api/artists                      Create (admin)
-PUT    /api/artists/:id                  Update (admin)
-DELETE /api/artists/:id                  Delete (admin)
+GET    /api/artists                List all artists
+GET    /api/artists/:id            Single artist
+POST   /api/artists                Create (admin)
+PUT    /api/artists/:id            Update (admin)
+DELETE /api/artists/:id            Delete (admin)
 ```
 
 ### Sets
 
 ```
-GET    /api/festivals/:id/sets           All sets for a festival
-POST   /api/festivals/:id/sets           Create set (admin)
-PUT    /api/sets/:id                     Update set (admin)
-DELETE /api/sets/:id                     Delete set (admin)
+GET    /api/sets?festivalId=       All sets for a festival
+POST   /api/sets                   Create set (admin)
+PUT    /api/sets/:id               Update set (admin)
+DELETE /api/sets/:id               Delete set (admin)
 ```
 
 ### User (authenticated)
@@ -276,10 +258,10 @@ DELETE /api/me/plans/:setId              Remove set from plan
 ### Auth
 
 ```
-POST   /api/auth/sign-in                 Email + password login
-POST   /api/auth/sign-up                 Register new user
-POST   /api/auth/sign-out                End session
-GET    /api/auth/session                 Current session
+POST   /api/auth/sign-up           Register new user
+POST   /api/auth/sign-in/email     Email + password login
+POST   /api/auth/sign-out          End session
+GET    /api/auth/get-session       Current session
 ```
 
 ---
@@ -288,11 +270,7 @@ GET    /api/auth/session                 Current session
 
 ### Conflict Detection
 
-Two sets conflict when they are on different stages, on the same day, and their time windows overlap. Detection runs client-side in `useConflicts.ts` using `date-fns` interval comparison. Conflicts are surfaced:
-
-- On the set card (red border + warning badge)
-- In the plan sidebar (conflict banner + per-item overlap indicator)
-- Via Sonner toast on add ("⚠ Conflict detected")
+Two sets conflict when they are on different stages, on the same day, and their time windows overlap. Detection runs client-side using `date-fns` interval comparison. Conflicts are surfaced on the set card (red border + warning badge), in the plan sidebar (conflict banner + per-item overlap indicator), and via Sonner toast on add.
 
 ### Year Filtering
 
@@ -300,61 +278,103 @@ The landing page derives available years from `festival.start_date` values in th
 
 ### Theme
 
-Dark/light mode is class-based (`.dark` on `<html>`) using your `theme.css` token system. Persisted to `localStorage` via Zustand middleware. Defaults to dark mode.
+Dark/light mode is class-based (`.dark` on `<html>`) using a shadcn/ui-compatible CSS variable token system. Persisted to `localStorage` via Zustand. Defaults to dark mode. Amber brand accent (`#f59e0b`) extends the base theme as a custom `--brand` token mapped to Tailwind utilities.
 
 ### Plan Sidebar
 
-- **Desktop (≥1024px):** Fixed right sidebar, 340px wide, pushes main content
-- **Mobile (<1024px):** Bottom sheet drawer with `border-radius: 16px 16px 0 0`
-- Plan state is per-user and synced to the database when authenticated
+- **Desktop (≥1024px):** Fixed right sidebar, 320px wide
+- **Mobile (<1024px):** Bottom sheet drawer with rounded top corners + backdrop
+- Plan state is per-user and persisted to the database via `user_plan_items`
+
+### Auth Pages
+
+Full-bleed festival crowd hero image with frosted glass form card overlay. Animated gradient wordmark. Browser autofill styled to match the glassmorphism aesthetic.
+
+### Admin Panel
+
+Role-gated to `admin` users. Left sidebar navigation. Festivals and artists management with inline delete confirmation. Schedule page with split stages/sets layout, day tab selector, and inline create forms for both stages and sets.
 
 ---
 
 ## Getting Started
 
-See [INSTALL.md](./INSTALL.md) for the full scaffolding and install sequence.
+### Prerequisites
 
----
+```bash
+node --version   # 20+ required
+pnpm --version   # 9+ required
+```
 
-## Environment Variables
+### Install
 
-### `apps/web/.env.local`
+```bash
+git clone https://github.com/tworoniak/setlist
+cd festival-planner
+pnpm install
+```
+
+### Environment variables
+
+Create `apps/api/.env`:
+
+```env
+DATABASE_URL=postgresql://...
+BETTER_AUTH_SECRET=your_secret_here
+BETTER_AUTH_URL=http://localhost:3001
+WEB_URL=http://localhost:3000
+```
+
+Create `apps/web/src/.env.local`:
 
 ```env
 VITE_API_URL=http://localhost:3001
-VITE_CLOUDINARY_CLOUD_NAME=your_cloud_name
 ```
 
-### `apps/api/.env`
+### Database
 
-```env
-DATABASE_URL=postgresql://...          # Neon connection string
-BETTER_AUTH_SECRET=your_secret_here
-BETTER_AUTH_URL=http://localhost:3001
-CLOUDINARY_CLOUD_NAME=your_cloud_name
-CLOUDINARY_API_KEY=your_api_key
-CLOUDINARY_API_SECRET=your_api_secret
+```bash
+cd apps/api
+pnpm db:migrate
+pnpm db:seed      # optional — loads 3 sample festivals
+```
+
+### Dev
+
+```bash
+# From monorepo root
+pnpm dev          # starts web (:3000) and api (:3001) in parallel
+```
+
+### Admin access
+
+After registering, open Drizzle Studio and set your user's `role` to `admin`:
+
+```bash
+cd apps/api
+pnpm db:studio
 ```
 
 ---
 
 ## Development Phases
 
-| Phase       | Scope                                                | Status     |
-| ----------- | ---------------------------------------------------- | ---------- |
-| **Phase 1** | Scaffold, theme, routing, Zustand stores             | 🔲 Up next |
-| **Phase 2** | Neon DB, Drizzle schema, Hono API, Better Auth       | 🔲 Pending |
-| **Phase 3** | LandingPage, FestivalDetailPage, schedule UI         | 🔲 Pending |
-| **Phase 4** | Favorites, plan sidebar, conflict detection          | 🔲 Pending |
-| **Phase 5** | Admin CRUD (festivals, stages, artists, sets)        | 🔲 Pending |
-| **Phase 6** | Framer Motion transitions, mobile polish, a11y audit | 🔲 Pending |
+| Phase       | Scope                                                    | Status      |
+| ----------- | -------------------------------------------------------- | ----------- |
+| **Phase 1** | Scaffold, theme, routing, Zustand stores                 | ✅ Complete |
+| **Phase 2** | Neon DB, Drizzle schema, Hono API, Better Auth           | ✅ Complete |
+| **Phase 3** | LandingPage, FestivalDetailPage, plan sidebar, dark mode | ✅ Complete |
+| **Phase 4** | Persist favorites + plan to database per user            | ✅ Complete |
+| **Phase 5** | Admin CRUD — festivals, stages, artists, sets            | ✅ Complete |
+| **Phase 6** | Framer Motion transitions, mobile polish, a11y audit     | 🔲 Pending  |
 
 ---
 
 ## Design System
 
-- **Font pairing:** Bebas Neue (headings, stage names, set times) + DM Sans (body, UI)
-- **Brand accent:** `#f59e0b` amber — extends the shadcn/ui base theme as `--brand` / `bg-brand` / `text-brand`
-- **Component library:** shadcn/ui (Radix UI primitives + your `theme.css` tokens)
+- **Font pairing:** Bebas Neue (display) + DM Sans (body/UI)
+- **Brand accent:** `#f59e0b` amber — `--brand` / `bg-brand` / `text-brand` Tailwind utilities
+- **Animated gradient:** CSS keyframe utility class `animated-gradient-text` used on the SetList wordmark
+- **Component library:** shadcn/ui (Radix UI primitives)
 - **Icon system:** Lucide React throughout
-- **Radius base:** `0.625rem` (`--radius`) with sm/md/lg/xl scale
+- **Radius base:** `0.625rem` with sm/md/lg/xl scale
+- **Auth pages:** Glassmorphism card (`bg-white/10 backdrop-blur-md`) over full-bleed hero
