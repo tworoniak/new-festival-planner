@@ -231,7 +231,7 @@ export function LandingPage() {
                   </div>
                   <div className='mt-auto pt-4'>
                     <button
-                      className='w-full h-8 rounded-md bg-primary text-primary-foreground text-xs font-medium hover:opacity-90 transition-opacity'
+                      className='w-full h-8 rounded-md bg-brand text-primary-foreground text-xs font-medium hover:opacity-90 transition-opacity'
                       onClick={(e) => {
                         e.stopPropagation();
                         navigate(`/festival/${festival.slug}`);
