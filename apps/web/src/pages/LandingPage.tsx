@@ -50,7 +50,10 @@ export function LandingPage() {
                 <Music className='w-4 h-4 text-white' />
               </div>
               <span className='font-medium text-sm text-white'>
-                SetList - Festival Planner
+                <span className='hidden sm:inline'>
+                  SetList - Festival Planner
+                </span>
+                <span className='sm:hidden'>SetList</span>
               </span>
             </div>
             <div className='flex items-center gap-2'>
@@ -72,7 +75,7 @@ export function LandingPage() {
         </header>
 
         {/* Hero */}
-        <div className='relative h-120 overflow-hidden'>
+        <div className='relative h-90 sm:h-96 md:h-120 overflow-hidden'>
           <img
             src={HERO_IMAGE}
             alt='Festival crowd'
@@ -82,14 +85,11 @@ export function LandingPage() {
 
           <div className='absolute inset-0 flex flex-col items-center justify-center px-4 text-center'>
             <div className='flex items-center gap-2 mb-4'>
-              {/* <div className='w-8 h-8 bg-white/15 backdrop-blur-sm rounded-md flex items-center justify-center border border-white/20'>
-              <Music className='w-5 h-5 text-white' />
-            </div> */}
               <span className='logo-text animated-gradient-text tracking-wide'>
                 SetList
               </span>
             </div>
-            <h1 className='text-4xl md:text-4xl font-medium text-white leading-tight'>
+            <h1 className='text-2xl md:text-4xl font-medium text-white leading-tight'>
               Your festival,
               <br className='block md:hidden' /> your schedule.
             </h1>
@@ -241,7 +241,7 @@ export function LandingPage() {
                     </div>
                     <div className='mt-auto pt-4'>
                       <button
-                        className='w-full h-8 rounded-md bg-brand text-primary-foreground text-xs font-medium hover:opacity-90 transition-opacity'
+                        className='w-full h-8 rounded-md bg-brand text-brand-foreground text-xs font-medium hover:opacity-90 transition-opacity'
                         onClick={(e) => {
                           e.stopPropagation();
                           navigate(`/festival/${festival.slug}`);

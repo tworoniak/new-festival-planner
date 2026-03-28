@@ -142,7 +142,7 @@ export function FestivalDetailPage() {
               <ThemeToggle />
               <button
                 onClick={() => setSidebarOpen(true)}
-                className='flex items-center gap-2 text-sm font-medium bg-brand text-background px-3 h-8 rounded-md hover:opacity-90 transition-opacity'
+                className='flex items-center gap-2 text-sm font-medium bg-brand text-brand-foreground px-3 h-8 rounded-md hover:opacity-90 transition-opacity'
               >
                 <CalendarDays className='w-3.5 h-3.5' />
                 My Plan
