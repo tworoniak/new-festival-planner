@@ -180,6 +180,7 @@
 import { useEffect } from 'react';
 import { X, CalendarDays, AlertTriangle, Trash2 } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
+import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { intervalOverlap } from '@/lib/utils';
 import type { ServerPlanItem } from '@/hooks/usePlan';
@@ -239,12 +240,18 @@ export function PlanSidebar({
 
   return (
     <>
-      {open && (
-        <div
-          className='fixed inset-0 bg-black/40 z-40 lg:hidden'
-          onClick={onClose}
-        />
-      )}
+      <AnimatePresence>
+        {open && (
+          <motion.div
+            className='fixed inset-0 bg-black/40 z-40 lg:hidden'
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.2 }}
+            onClick={onClose}
+          />
+        )}
+      </AnimatePresence>
 
       <aside
         className={cn(

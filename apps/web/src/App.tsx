@@ -5,10 +5,14 @@ import { AnimatedRoutes } from '@/routes';
 
 function Inner() {
   const location = useLocation();
+  // Admin sub-routes share a key so only the inner Outlet animates, not the whole AdminLayout
+  const routeKey = location.pathname.startsWith('/admin')
+    ? '/admin'
+    : location.pathname;
   return (
     <div style={{ overflow: 'hidden' }}>
       <AnimatePresence mode='wait' initial={false}>
-        <AnimatedRoutes key={location.pathname} />
+        <AnimatedRoutes key={routeKey} />
       </AnimatePresence>
     </div>
   );
