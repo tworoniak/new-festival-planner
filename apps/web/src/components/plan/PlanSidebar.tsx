@@ -177,13 +177,26 @@
 //   );
 // }
 
-import { useEffect } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { X, CalendarDays, AlertTriangle, Trash2 } from 'lucide-react';
 import { format, parseISO } from 'date-fns';
 import { AnimatePresence, motion } from 'framer-motion';
 import { cn } from '@/lib/utils';
 import { intervalOverlap } from '@/lib/utils';
 import type { ServerPlanItem } from '@/hooks/usePlan';
+
+function useIsDesktop() {
+  const [isDesktop, setIsDesktop] = useState(
+    () => typeof window !== 'undefined' && window.matchMedia('(min-width: 1024px)').matches,
+  );
+  useEffect(() => {
+    const mq = window.matchMedia('(min-width: 1024px)');
+    const handler = (e: MediaQueryListEvent) => setIsDesktop(e.matches);
+    mq.addEventListener('change', handler);
+    return () => mq.removeEventListener('change', handler);
+  }, []);
+  return isDesktop;
+}
 
 interface PlanSidebarProps {
   open: boolean;
@@ -200,6 +213,10 @@ export function PlanSidebar({
   onRemove,
   onClear,
 }: PlanSidebarProps) {
+  const isDesktop = useIsDesktop();
+  const asideRef = useRef<HTMLElement>(null);
+  const closeButtonRef = useRef<HTMLButtonElement>(null);
+  const previousFocusRef = useRef<HTMLElement | null>(null);
   // Compute conflicts from server items
   const conflictIds = new Set<string>();
   for (let i = 0; i < items.length; i++) {
@@ -230,13 +247,50 @@ export function PlanSidebar({
 
   const days = [...new Set(sorted.map((i) => i.set.day))].sort();
 
+  // Focus management: save trigger, focus close button on open; restore on close
   useEffect(() => {
-    const handler = (e: KeyboardEvent) => {
-      if (e.key === 'Escape') onClose();
+    if (open) {
+      previousFocusRef.current = document.activeElement as HTMLElement;
+      closeButtonRef.current?.focus();
+    } else {
+      previousFocusRef.current?.focus();
+      previousFocusRef.current = null;
+    }
+  }, [open]);
+
+  // Escape to close + focus trap within the aside
+  useEffect(() => {
+    if (!open) return;
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose();
+        return;
+      }
+      if (e.key !== 'Tab') return;
+      const aside = asideRef.current;
+      if (!aside) return;
+      const focusable = Array.from(
+        aside.querySelectorAll<HTMLElement>(
+          'button:not([disabled]), [href], input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+        ),
+      );
+      const first = focusable[0];
+      const last = focusable[focusable.length - 1];
+      if (e.shiftKey) {
+        if (document.activeElement === first) {
+          e.preventDefault();
+          last?.focus();
+        }
+      } else {
+        if (document.activeElement === last) {
+          e.preventDefault();
+          first?.focus();
+        }
+      }
     };
-    window.addEventListener('keydown', handler);
-    return () => window.removeEventListener('keydown', handler);
-  }, [onClose]);
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [open, onClose]);
 
   return (
     <>
@@ -254,6 +308,10 @@ export function PlanSidebar({
       </AnimatePresence>
 
       <aside
+        ref={asideRef}
+        role={isDesktop ? 'complementary' : 'dialog'}
+        aria-modal={!isDesktop && open ? true : undefined}
+        aria-label='My Plan'
         className={cn(
           'fixed z-50 bg-sidebar border-sidebar-border transition-transform duration-300',
           'bottom-0 left-0 right-0 rounded-t-2xl border-t max-h-[70vh] overflow-y-auto',
@@ -285,17 +343,19 @@ export function PlanSidebar({
               </button>
             )}
             <button
+              ref={closeButtonRef}
               onClick={onClose}
+              aria-label='Close plan'
               className='w-7 h-7 rounded-md border border-border flex items-center justify-center hover:bg-muted transition-colors'
             >
-              <X className='w-3.5 h-3.5' />
+              <X aria-hidden='true' className='w-3.5 h-3.5' />
             </button>
           </div>
         </div>
 
         {conflictCount > 0 && (
-          <div className='mx-3 mt-3 flex items-start gap-2 bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2.5'>
-            <AlertTriangle className='w-3.5 h-3.5 text-destructive shrink-0 mt-0.5' />
+          <div role='alert' aria-live='assertive' className='mx-3 mt-3 flex items-start gap-2 bg-destructive/10 border border-destructive/20 rounded-lg px-3 py-2.5'>
+            <AlertTriangle aria-hidden='true' className='w-3.5 h-3.5 text-destructive shrink-0 mt-0.5' />
             <p className='text-xs text-destructive'>
               {conflictCount} scheduling conflict{conflictCount > 1 ? 's' : ''}{' '}
               detected
