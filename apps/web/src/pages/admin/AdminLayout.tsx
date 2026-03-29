@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { Outlet, NavLink, useNavigate, useLocation } from 'react-router-dom';
 import {
   Music,
@@ -86,6 +86,17 @@ function SidebarContent({
 export function AdminLayout() {
   const location = useLocation();
   const [mobileOpen, setMobileOpen] = useState(false);
+  const hamburgerRef = useRef<HTMLButtonElement>(null);
+  const mobileCloseRef = useRef<HTMLButtonElement>(null);
+
+  // Focus management for mobile drawer
+  useEffect(() => {
+    if (mobileOpen) {
+      mobileCloseRef.current?.focus();
+    } else {
+      hamburgerRef.current?.focus();
+    }
+  }, [mobileOpen]);
 
   return (
     <div className='min-h-screen bg-background flex'>
@@ -114,10 +125,12 @@ export function AdminLayout() {
               transition={{ duration: 0.25, ease: 'easeOut' }}
             >
               <button
+                ref={mobileCloseRef}
                 onClick={() => setMobileOpen(false)}
+                aria-label='Close navigation'
                 className='absolute top-3.5 right-3 w-7 h-7 rounded-md border border-border flex items-center justify-center hover:bg-muted transition-colors'
               >
-                <X className='w-4 h-4' />
+                <X aria-hidden='true' className='w-4 h-4' />
               </button>
               <SidebarContent onNavigate={() => setMobileOpen(false)} />
             </motion.aside>
@@ -131,10 +144,13 @@ export function AdminLayout() {
         <header className='h-14 border-b border-border bg-background sticky top-0 z-10 flex items-center justify-between px-4 sm:px-6'>
           <div className='flex items-center gap-3'>
             <button
+              ref={hamburgerRef}
               className='lg:hidden w-8 h-8 rounded-md border border-border flex items-center justify-center hover:bg-muted transition-colors'
               onClick={() => setMobileOpen(true)}
+              aria-label='Open navigation'
+              aria-expanded={mobileOpen}
             >
-              <Menu className='w-4 h-4' />
+              <Menu aria-hidden='true' className='w-4 h-4' />
             </button>
             <div className='flex items-center gap-2 text-sm text-muted-foreground'>
               <LayoutDashboard className='w-4 h-4' />

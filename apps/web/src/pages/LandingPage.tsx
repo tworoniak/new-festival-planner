@@ -110,8 +110,12 @@ export function LandingPage() {
 
             {/* Search bar */}
             <motion.div variants={staggerItem} className='relative mt-8 w-full max-w-md'>
-              <Search className='absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50' />
+              <label htmlFor='festival-search' className='sr-only'>
+                Search festivals or locations
+              </label>
+              <Search aria-hidden='true' className='absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50' />
               <input
+                id='festival-search'
                 type='text'
                 placeholder='Search festivals or locations...'
                 value={search}
@@ -210,21 +214,21 @@ export function LandingPage() {
               animate='animate'
             >
               {filtered.map((festival) => (
-                <motion.div
+                <motion.article
                   key={festival.id}
                   variants={staggerItem}
-                  className='rounded-lg border border-border bg-card overflow-hidden cursor-pointer group transition-shadow hover:shadow-md flex flex-col'
-                  onClick={() => navigate(`/festival/${festival.slug}`)}
+                  className='rounded-lg border border-border bg-card overflow-hidden group transition-shadow hover:shadow-md flex flex-col'
                 >
                   <div className='h-44 bg-muted overflow-hidden'>
                     {festival.imageUrl ? (
                       <img
                         src={festival.imageUrl}
-                        alt={festival.name}
+                        alt=''
+                        aria-hidden='true'
                         className='w-full h-full object-cover transition-transform group-hover:scale-105'
                       />
                     ) : (
-                      <div className='w-full h-full flex items-center justify-center'>
+                      <div aria-hidden='true' className='w-full h-full flex items-center justify-center'>
                         <Music className='w-8 h-8 text-muted-foreground opacity-30' />
                       </div>
                     )}
@@ -240,29 +244,27 @@ export function LandingPage() {
                     )}
                     <div className='mt-3 space-y-1.5'>
                       <div className='flex items-center gap-1.5 text-xs text-muted-foreground'>
-                        <Calendar className='w-3.5 h-3.5 shrink-0' />
+                        <Calendar aria-hidden='true' className='w-3.5 h-3.5 shrink-0' />
                         {format(new Date(festival.startDate), 'MMM d')}
                         {' – '}
                         {format(new Date(festival.endDate), 'MMM d, yyyy')}
                       </div>
                       <div className='flex items-center gap-1.5 text-xs text-muted-foreground'>
-                        <MapPin className='w-3.5 h-3.5 shrink-0' />
+                        <MapPin aria-hidden='true' className='w-3.5 h-3.5 shrink-0' />
                         {festival.location}
                       </div>
                     </div>
                     <div className='mt-auto pt-4'>
                       <button
                         className='w-full h-8 rounded-md bg-brand text-brand-foreground text-xs font-medium hover:opacity-90 transition-opacity'
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          navigate(`/festival/${festival.slug}`);
-                        }}
+                        onClick={() => navigate(`/festival/${festival.slug}`)}
+                        aria-label={`View schedule for ${festival.name}`}
                       >
                         View Schedule
                       </button>
                     </div>
                   </div>
-                </motion.div>
+                </motion.article>
               ))}
             </motion.div>
           )}
