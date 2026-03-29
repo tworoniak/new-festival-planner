@@ -148,7 +148,9 @@ export function ScheduleAdminPage() {
                   onSubmit={stageForm.handleSubmit(onCreateStage)}
                   className='space-y-2'
                 >
+                  <label htmlFor='stage-name' className='sr-only'>Stage name</label>
                   <input
+                    id='stage-name'
                     {...stageForm.register('name')}
                     placeholder='Stage name'
                     className='w-full h-8 rounded-md border border-border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring'
@@ -159,7 +161,9 @@ export function ScheduleAdminPage() {
                     </p>
                   )}
                   <div className='flex gap-2'>
+                    <label htmlFor='stage-order' className='sr-only'>Display order</label>
                     <input
+                      id='stage-order'
                       {...stageForm.register('order')}
                       type='number'
                       placeholder='Order'
@@ -289,10 +293,11 @@ export function ScheduleAdminPage() {
                   <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
                     {/* Stage */}
                     <div className='space-y-1'>
-                      <label className='text-xs font-medium text-muted-foreground'>
+                      <label htmlFor='set-stage' className='text-xs font-medium text-muted-foreground'>
                         Stage
                       </label>
                       <select
+                        id='set-stage'
                         {...setForm.register('stageId')}
                         className='w-full h-8 rounded-md border border-border bg-background px-2 text-sm outline-none focus:ring-2 focus:ring-ring'
                       >
@@ -312,10 +317,11 @@ export function ScheduleAdminPage() {
 
                     {/* Artist */}
                     <div className='space-y-1'>
-                      <label className='text-xs font-medium text-muted-foreground'>
+                      <label htmlFor='set-artist' className='text-xs font-medium text-muted-foreground'>
                         Artist
                       </label>
                       <select
+                        id='set-artist'
                         {...setForm.register('artistId')}
                         className='w-full h-8 rounded-md border border-border bg-background px-2 text-sm outline-none focus:ring-2 focus:ring-ring'
                       >
@@ -337,10 +343,11 @@ export function ScheduleAdminPage() {
                   <div className='grid grid-cols-1 sm:grid-cols-3 gap-3'>
                     {/* Day */}
                     <div className='space-y-1'>
-                      <label className='text-xs font-medium text-muted-foreground'>
+                      <label htmlFor='set-day' className='text-xs font-medium text-muted-foreground'>
                         Day
                       </label>
                       <input
+                        id='set-day'
                         {...setForm.register('day')}
                         type='number'
                         min='1'
@@ -351,10 +358,11 @@ export function ScheduleAdminPage() {
 
                     {/* Start time */}
                     <div className='space-y-1'>
-                      <label className='text-xs font-medium text-muted-foreground'>
+                      <label htmlFor='set-start-time' className='text-xs font-medium text-muted-foreground'>
                         Start
                       </label>
                       <input
+                        id='set-start-time'
                         {...setForm.register('startTime')}
                         type='time'
                         className='w-full h-8 rounded-md border border-border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring'
@@ -368,10 +376,11 @@ export function ScheduleAdminPage() {
 
                     {/* End time */}
                     <div className='space-y-1'>
-                      <label className='text-xs font-medium text-muted-foreground'>
+                      <label htmlFor='set-end-time' className='text-xs font-medium text-muted-foreground'>
                         End
                       </label>
                       <input
+                        id='set-end-time'
                         {...setForm.register('endTime')}
                         type='time'
                         className='w-full h-8 rounded-md border border-border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring'

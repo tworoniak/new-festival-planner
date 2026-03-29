@@ -91,8 +91,9 @@ export function ArtistFormPage() {
 
       <form onSubmit={handleSubmit(onSubmit)} className='space-y-5'>
         <div className='space-y-1.5'>
-          <label className='text-sm font-medium'>Name</label>
+          <label htmlFor='artist-name' className='text-sm font-medium'>Name</label>
           <input
+            id='artist-name'
             {...register('name')}
             placeholder='Artist name'
             className={cn(
@@ -107,8 +108,9 @@ export function ArtistFormPage() {
         </div>
 
         <div className='space-y-1.5'>
-          <label className='text-sm font-medium'>Genre</label>
+          <label htmlFor='artist-genre' className='text-sm font-medium'>Genre</label>
           <input
+            id='artist-genre'
             {...register('genre')}
             placeholder='e.g. Indie Rock, Techno, Jazz'
             className='w-full h-9 rounded-md border border-border bg-background px-3 text-sm outline-none focus:ring-2 focus:ring-ring transition-colors'
@@ -116,8 +118,9 @@ export function ArtistFormPage() {
         </div>
 
         <div className='space-y-1.5'>
-          <label className='text-sm font-medium'>Image URL</label>
+          <label htmlFor='artist-image-url' className='text-sm font-medium'>Image URL</label>
           <input
+            id='artist-image-url'
             {...register('imageUrl')}
             placeholder='https://...'
             className={cn(
@@ -134,8 +137,9 @@ export function ArtistFormPage() {
         </div>
 
         <div className='space-y-1.5'>
-          <label className='text-sm font-medium'>Bio</label>
+          <label htmlFor='artist-bio' className='text-sm font-medium'>Bio</label>
           <textarea
+            id='artist-bio'
             {...register('bio')}
             rows={4}
             placeholder='Short artist biography...'
