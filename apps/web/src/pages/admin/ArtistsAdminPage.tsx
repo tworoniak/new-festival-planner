@@ -58,15 +58,16 @@ export function ArtistsAdminPage() {
       {artists && (
         <div className='border border-border rounded-lg overflow-hidden'>
           <table className='w-full text-sm'>
+            <caption className='sr-only'>Artists</caption>
             <thead>
               <tr className='border-b border-border bg-muted/50'>
-                <th className='text-left px-4 py-3 font-medium text-muted-foreground'>
+                <th scope='col' className='text-left px-4 py-3 font-medium text-muted-foreground'>
                   Artist
                 </th>
-                <th className='text-left px-4 py-3 font-medium text-muted-foreground hidden md:table-cell'>
+                <th scope='col' className='text-left px-4 py-3 font-medium text-muted-foreground hidden md:table-cell'>
                   Genre
                 </th>
-                <th className='text-right px-4 py-3 font-medium text-muted-foreground'>
+                <th scope='col' className='text-right px-4 py-3 font-medium text-muted-foreground'>
                   Actions
                 </th>
               </tr>
@@ -112,10 +113,10 @@ export function ArtistsAdminPage() {
                         onClick={() =>
                           navigate(`/admin/artists/${artist.id}/edit`)
                         }
+                        aria-label={`Edit ${artist.name}`}
                         className='w-8 h-8 rounded-md border border-border flex items-center justify-center hover:bg-muted transition-colors'
-                        title='Edit'
                       >
-                        <Pencil className='w-3.5 h-3.5' />
+                        <Pencil aria-hidden='true' className='w-3.5 h-3.5' />
                       </button>
                       {confirmDelete === artist.id ? (
                         <div className='flex items-center gap-1'>
@@ -135,10 +136,10 @@ export function ArtistsAdminPage() {
                       ) : (
                         <button
                           onClick={() => setConfirmDelete(artist.id)}
+                          aria-label={`Delete ${artist.name}`}
                           className='w-8 h-8 rounded-md border border-border flex items-center justify-center hover:bg-destructive/10 hover:border-destructive/30 hover:text-destructive transition-colors'
-                          title='Delete'
                         >
-                          <Trash2 className='w-3.5 h-3.5' />
+                          <Trash2 aria-hidden='true' className='w-3.5 h-3.5' />
                         </button>
                       )}
                     </div>

@@ -91,9 +91,10 @@ export function FestivalFormPage() {
       <div className='flex items-center gap-3 mb-6'>
         <button
           onClick={() => navigate('/admin/festivals')}
+          aria-label='Back to festivals'
           className='w-8 h-8 rounded-md border border-border flex items-center justify-center hover:bg-muted transition-colors'
         >
-          <ArrowLeft className='w-4 h-4' />
+          <ArrowLeft aria-hidden='true' className='w-4 h-4' />
         </button>
         <div>
           <h1 className='text-xl font-medium'>
@@ -111,8 +112,9 @@ export function FestivalFormPage() {
         {/* Name + Slug */}
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
           <div className='space-y-1.5'>
-            <label className='text-sm font-medium'>Name</label>
+            <label htmlFor='festival-name' className='text-sm font-medium'>Name</label>
             <input
+              id='festival-name'
               {...register('name')}
               placeholder='Primavera Sound'
               className={cn(
@@ -126,8 +128,9 @@ export function FestivalFormPage() {
             )}
           </div>
           <div className='space-y-1.5'>
-            <label className='text-sm font-medium'>Slug</label>
+            <label htmlFor='festival-slug' className='text-sm font-medium'>Slug</label>
             <input
+              id='festival-slug'
               {...register('slug')}
               placeholder='primavera-sound-2026'
               className={cn(
@@ -144,8 +147,9 @@ export function FestivalFormPage() {
 
         {/* Short description */}
         <div className='space-y-1.5'>
-          <label className='text-sm font-medium'>Short description</label>
+          <label htmlFor='festival-short-desc' className='text-sm font-medium'>Short description</label>
           <input
+            id='festival-short-desc'
             {...register('shortDescription')}
             placeholder='Indie, electronic & experimental sounds...'
             className={cn(
@@ -163,8 +167,9 @@ export function FestivalFormPage() {
 
         {/* Description */}
         <div className='space-y-1.5'>
-          <label className='text-sm font-medium'>Description</label>
+          <label htmlFor='festival-desc' className='text-sm font-medium'>Description</label>
           <textarea
+            id='festival-desc'
             {...register('description')}
             rows={3}
             placeholder='Full description shown on the festival detail page...'
@@ -184,8 +189,9 @@ export function FestivalFormPage() {
         {/* Dates */}
         <div className='grid grid-cols-1 sm:grid-cols-2 gap-4'>
           <div className='space-y-1.5'>
-            <label className='text-sm font-medium'>Start date</label>
+            <label htmlFor='festival-start-date' className='text-sm font-medium'>Start date</label>
             <input
+              id='festival-start-date'
               type='date'
               {...register('startDate')}
               className={cn(
@@ -201,8 +207,9 @@ export function FestivalFormPage() {
             )}
           </div>
           <div className='space-y-1.5'>
-            <label className='text-sm font-medium'>End date</label>
+            <label htmlFor='festival-end-date' className='text-sm font-medium'>End date</label>
             <input
+              id='festival-end-date'
               type='date'
               {...register('endDate')}
               className={cn(
@@ -221,8 +228,9 @@ export function FestivalFormPage() {
 
         {/* Location */}
         <div className='space-y-1.5'>
-          <label className='text-sm font-medium'>Location</label>
+          <label htmlFor='festival-location' className='text-sm font-medium'>Location</label>
           <input
+            id='festival-location'
             {...register('location')}
             placeholder='Barcelona, Spain'
             className={cn(
@@ -240,8 +248,9 @@ export function FestivalFormPage() {
 
         {/* Images */}
         <div className='space-y-1.5'>
-          <label className='text-sm font-medium'>Card image URL</label>
+          <label htmlFor='festival-image-url' className='text-sm font-medium'>Card image URL</label>
           <input
+            id='festival-image-url'
             {...register('imageUrl')}
             placeholder='https://images.unsplash.com/...'
             className={cn(
@@ -258,8 +267,9 @@ export function FestivalFormPage() {
         </div>
 
         <div className='space-y-1.5'>
-          <label className='text-sm font-medium'>Hero image URL</label>
+          <label htmlFor='festival-hero-image-url' className='text-sm font-medium'>Hero image URL</label>
           <input
+            id='festival-hero-image-url'
             {...register('heroImageUrl')}
             placeholder='https://images.unsplash.com/...'
             className={cn(

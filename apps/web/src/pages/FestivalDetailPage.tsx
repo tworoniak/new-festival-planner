@@ -133,21 +133,23 @@ export function FestivalDetailPage() {
           <div className='max-w-4xl mx-auto px-4 h-12 flex items-center justify-between'>
             <button
               onClick={() => navigate('/')}
+              aria-label='Back to festivals'
               className='flex items-center gap-1.5 text-sm text-muted-foreground hover:text-foreground transition-colors'
             >
-              <ArrowLeft className='w-4 h-4' />
+              <ArrowLeft aria-hidden='true' className='w-4 h-4' />
               Back to Festivals
             </button>
             <div className='flex items-center gap-2'>
               <ThemeToggle />
               <button
                 onClick={() => setSidebarOpen(true)}
+                aria-label={`My Plan${planItems.length > 0 ? `, ${planItems.length} set${planItems.length !== 1 ? 's' : ''}` : ''}`}
                 className='flex items-center gap-2 text-sm font-medium bg-brand text-brand-foreground px-3 h-8 rounded-md hover:opacity-90 transition-opacity'
               >
-                <CalendarDays className='w-3.5 h-3.5' />
+                <CalendarDays aria-hidden='true' className='w-3.5 h-3.5' />
                 My Plan
                 {planItems.length > 0 && (
-                  <span className='bg-background/20 text-background text-xs rounded-full px-1.5 py-0.5 font-medium'>
+                  <span aria-hidden='true' className='bg-background/20 text-background text-xs rounded-full px-1.5 py-0.5 font-medium'>
                     {planItems.length}
                   </span>
                 )}
@@ -214,11 +216,12 @@ export function FestivalDetailPage() {
 
           {/* Day selector */}
           {days.length > 1 && (
-            <div className='flex items-center gap-2 mt-4'>
+            <div role='group' aria-label='Select day' className='flex items-center gap-2 mt-4'>
               {days.map((day) => (
                 <button
                   key={day}
                   onClick={() => setActiveDay(day)}
+                  aria-pressed={activeDay === day}
                   className={cn(
                     'px-4 py-1.5 rounded-full text-sm font-medium transition-colors',
                     activeDay === day
@@ -233,10 +236,18 @@ export function FestivalDetailPage() {
           )}
 
           {/* Stage tabs — segmented pill */}
-          <div className='flex bg-muted rounded-lg p-1 gap-1 mt-4 overflow-x-auto'>
+          <div
+            role='tablist'
+            aria-label='Select stage'
+            className='flex bg-muted rounded-lg p-1 gap-1 mt-4 overflow-x-auto'
+          >
             {festival.stages.map((stage) => (
               <button
                 key={stage.id}
+                role='tab'
+                aria-selected={currentStageId === stage.id}
+                aria-controls={`tabpanel-stage-${stage.id}`}
+                id={`tab-stage-${stage.id}`}
                 onClick={() => setActiveStageId(stage.id)}
                 className={cn(
                   'flex-1 min-w-fit px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap',
@@ -256,6 +267,11 @@ export function FestivalDetailPage() {
           </h3>
 
           {/* Set list */}
+          <div
+            role='tabpanel'
+            id={`tabpanel-stage-${currentStageId}`}
+            aria-labelledby={`tab-stage-${currentStageId}`}
+          >
           {currentSets.length === 0 ? (
             <div className='text-sm text-muted-foreground py-8 text-center'>
               No sets scheduled for this stage on Day {activeDay}.
@@ -325,15 +341,17 @@ export function FestivalDetailPage() {
                             toast('⭐ Added to favorites');
                           }
                         }}
+                        aria-label={isFav ? `Remove ${set.artist.name} from favourites` : `Add ${set.artist.name} to favourites`}
+                        aria-pressed={isFav}
                         className={cn(
                           'w-8 h-8 rounded-md border flex items-center justify-center transition-colors',
                           isFav
                             ? 'bg-amber-50 border-amber-300 dark:bg-amber-950/30 dark:border-amber-700'
                             : 'border-border hover:bg-muted',
                         )}
-                        title='Favorite'
                       >
                         <Star
+                          aria-hidden='true'
                           className={cn(
                             'w-3.5 h-3.5',
                             isFav
@@ -352,15 +370,17 @@ export function FestivalDetailPage() {
                             toast('📅 Added to plan');
                           }
                         }}
+                        aria-label={inPlan ? `Remove ${set.artist.name} from plan` : `Add ${set.artist.name} to plan`}
+                        aria-pressed={inPlan}
                         className={cn(
                           'w-8 h-8 rounded-md border flex items-center justify-center transition-colors',
                           inPlan
                             ? 'bg-green-50 border-green-300 dark:bg-green-950/30 dark:border-green-700'
                             : 'border-border hover:bg-muted',
                         )}
-                        title={inPlan ? 'Remove from plan' : 'Add to plan'}
                       >
                         <CalendarPlus
+                          aria-hidden='true'
                           className={cn(
                             'w-3.5 h-3.5',
                             inPlan
@@ -375,6 +395,7 @@ export function FestivalDetailPage() {
               })}
             </motion.div>
           )}
+          </div>
         </div>
       </div>
     </PageTransition>

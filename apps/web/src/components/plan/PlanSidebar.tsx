@@ -336,10 +336,10 @@ export function PlanSidebar({
             {items.length > 0 && (
               <button
                 onClick={onClear}
+                aria-label='Clear all sets from plan'
                 className='text-xs text-muted-foreground hover:text-destructive transition-colors'
-                title='Clear plan'
               >
-                <Trash2 className='w-3.5 h-3.5' />
+                <Trash2 aria-hidden='true' className='w-3.5 h-3.5' />
               </button>
             )}
             <button
@@ -373,19 +373,21 @@ export function PlanSidebar({
           </div>
         )}
 
+        <ul>
         {days.map((day) => (
-          <div key={day}>
+          <li key={day}>
             <div className='px-4 pt-4 pb-1'>
               <span className='text-xs font-medium text-muted-foreground uppercase tracking-wide'>
                 Day {day}
               </span>
             </div>
+            <ul>
             {sorted
               .filter((item) => item.set.day === day)
               .map((item) => {
                 const isConflict = conflictIds.has(item.set.id);
                 return (
-                  <div
+                  <li
                     key={item.setId}
                     className={cn(
                       'flex items-start gap-3 px-4 py-3 border-b border-border last:border-0',
@@ -425,15 +427,18 @@ export function PlanSidebar({
                     </div>
                     <button
                       onClick={() => onRemove(item.setId)}
+                      aria-label={`Remove ${item.set.artist.name} from plan`}
                       className='text-muted-foreground hover:text-destructive transition-colors shrink-0 mt-0.5'
                     >
-                      <X className='w-3.5 h-3.5' />
+                      <X aria-hidden='true' className='w-3.5 h-3.5' />
                     </button>
-                  </div>
+                  </li>
                 );
               })}
-          </div>
+            </ul>
+          </li>
         ))}
+        </ul>
       </aside>
     </>
   );

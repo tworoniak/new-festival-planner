@@ -162,7 +162,7 @@ export function LandingPage() {
               )}
             </div>
             {!isPending && (
-              <span className='text-sm text-muted-foreground'>
+              <span role='status' aria-live='polite' className='text-sm text-muted-foreground'>
                 {filtered.length} festival{filtered.length !== 1 ? 's' : ''}
               </span>
             )}

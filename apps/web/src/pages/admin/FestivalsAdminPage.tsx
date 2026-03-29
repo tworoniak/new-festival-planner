@@ -67,18 +67,19 @@ export function FestivalsAdminPage() {
       {festivals && (
         <div className='border border-border rounded-lg overflow-hidden'>
           <table className='w-full text-sm'>
+            <caption className='sr-only'>Festivals</caption>
             <thead>
               <tr className='border-b border-border bg-muted/50'>
-                <th className='text-left px-4 py-3 font-medium text-muted-foreground'>
+                <th scope='col' className='text-left px-4 py-3 font-medium text-muted-foreground'>
                   Festival
                 </th>
-                <th className='text-left px-4 py-3 font-medium text-muted-foreground hidden md:table-cell'>
+                <th scope='col' className='text-left px-4 py-3 font-medium text-muted-foreground hidden md:table-cell'>
                   Location
                 </th>
-                <th className='text-left px-4 py-3 font-medium text-muted-foreground hidden md:table-cell'>
+                <th scope='col' className='text-left px-4 py-3 font-medium text-muted-foreground hidden md:table-cell'>
                   Dates
                 </th>
-                <th className='text-right px-4 py-3 font-medium text-muted-foreground'>
+                <th scope='col' className='text-right px-4 py-3 font-medium text-muted-foreground'>
                   Actions
                 </th>
               </tr>
@@ -148,10 +149,10 @@ export function FestivalsAdminPage() {
                         onClick={() =>
                           navigate(`/admin/festivals/${festival.id}/edit`)
                         }
+                        aria-label={`Edit ${festival.name}`}
                         className='w-8 h-8 rounded-md border border-border flex items-center justify-center hover:bg-muted transition-colors'
-                        title='Edit'
                       >
-                        <Pencil className='w-3.5 h-3.5' />
+                        <Pencil aria-hidden='true' className='w-3.5 h-3.5' />
                       </button>
                       {confirmDelete === festival.id ? (
                         <div className='flex items-center gap-1'>
@@ -171,10 +172,10 @@ export function FestivalsAdminPage() {
                       ) : (
                         <button
                           onClick={() => setConfirmDelete(festival.id)}
+                          aria-label={`Delete ${festival.name}`}
                           className='w-8 h-8 rounded-md border border-border flex items-center justify-center hover:bg-destructive/10 hover:border-destructive/30 hover:text-destructive transition-colors'
-                          title='Delete'
                         >
-                          <Trash2 className='w-3.5 h-3.5' />
+                          <Trash2 aria-hidden='true' className='w-3.5 h-3.5' />
                         </button>
                       )}
                     </div>

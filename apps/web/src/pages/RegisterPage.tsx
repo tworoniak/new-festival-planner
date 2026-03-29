@@ -181,6 +181,7 @@ export function RegisterPage() {
               <button
                 type='submit'
                 disabled={isSubmitting}
+                aria-busy={isSubmitting}
                 className='w-full h-10 rounded-lg bg-white text-black text-sm font-medium hover:bg-white/90 disabled:opacity-50 transition-opacity mt-2'
               >
                 {isSubmitting ? 'Creating account...' : 'Create account'}
