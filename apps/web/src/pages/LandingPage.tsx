@@ -3,7 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import { MapPin, Calendar, Music, Search } from 'lucide-react';
 import { motion } from 'framer-motion';
 import { PageTransition } from '@/components/layout/PageTransition';
-import { staggerContainer, staggerItem } from '@/lib/animations';
+import { staggerContainer, staggerItem, heroContent } from '@/lib/animations';
 import { useFestivals } from '@/hooks/useFestivals';
 import { ThemeToggle } from '@/components/layout/ThemeToggle';
 import { cn } from '@/lib/utils';
@@ -83,22 +83,33 @@ export function LandingPage() {
           />
           <div className='absolute inset-0 bg-linear-to-b from-black/50 via-black/40 to-black/70' />
 
-          <div className='absolute inset-0 flex flex-col items-center justify-center px-4 text-center'>
-            <div className='flex items-center gap-2 mb-4'>
+          <motion.div
+            className='absolute inset-0 flex flex-col items-center justify-center px-4 text-center'
+            variants={staggerContainer}
+            initial='initial'
+            animate='animate'
+          >
+            <motion.div variants={heroContent} className='flex items-center gap-2 mb-4'>
               <span className='logo-text animated-gradient-text tracking-wide'>
                 SetList
               </span>
-            </div>
-            <h1 className='text-2xl md:text-4xl font-medium text-white leading-tight'>
+            </motion.div>
+            <motion.h1
+              variants={staggerItem}
+              className='text-2xl md:text-4xl font-medium text-white leading-tight'
+            >
               Your festival,
               <br className='block md:hidden' /> your schedule.
-            </h1>
-            <p className='text-white/70 text-sm md:text-base mt-4 max-w-md'>
+            </motion.h1>
+            <motion.p
+              variants={staggerItem}
+              className='text-white/70 text-sm md:text-base mt-4 max-w-md'
+            >
               Explore lineups, build your schedule, and never miss a set.
-            </p>
+            </motion.p>
 
             {/* Search bar */}
-            <div className='relative mt-8 w-full max-w-md'>
+            <motion.div variants={staggerItem} className='relative mt-8 w-full max-w-md'>
               <Search className='absolute left-3.5 top-1/2 -translate-y-1/2 w-4 h-4 text-white/50' />
               <input
                 type='text'
@@ -107,8 +118,8 @@ export function LandingPage() {
                 onChange={(e) => setSearch(e.target.value)}
                 className='w-full h-11 pl-10 pr-4 rounded-xl bg-white/15 backdrop-blur-md border border-white/20 text-white placeholder:text-white/40 text-sm outline-none focus:bg-white/20 focus:border-white/40 transition-colors'
               />
-            </div>
-          </div>
+            </motion.div>
+          </motion.div>
         </div>
 
         {/* Filters + Grid */}

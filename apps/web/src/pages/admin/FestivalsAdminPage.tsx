@@ -28,7 +28,7 @@ export function FestivalsAdminPage() {
   return (
     <div>
       {/* Header */}
-      <div className='flex items-center justify-between mb-6'>
+      <div className='flex flex-col sm:flex-row sm:items-center sm:justify-between gap-3 mb-6'>
         <div>
           <h1 className='text-xl font-medium'>Festivals</h1>
           <p className='text-sm text-muted-foreground mt-0.5'>

@@ -239,41 +239,40 @@ export function ScheduleAdminPage() {
         {/* RIGHT — Sets */}
         <div className='lg:col-span-2'>
           <div className='border border-border rounded-lg overflow-hidden'>
-            <div className='flex items-center justify-between px-4 py-3 border-b border-border bg-muted/30'>
-              <div className='flex items-center gap-2'>
-                <span className='text-sm font-medium'>Sets</span>
-                {/* Day tabs */}
-                <div className='flex bg-muted rounded-md p-0.5 gap-0.5'>
-                  {days.map((day) => (
-                    <button
-                      key={day}
-                      onClick={() => setActiveDay(day)}
-                      className={cn(
-                        'h-6 px-2.5 rounded text-xs font-medium transition-colors',
-                        activeDay === day
-                          ? 'bg-background text-foreground shadow-sm'
-                          : 'text-muted-foreground hover:text-foreground',
-                      )}
-                    >
-                      Day {day}
-                    </button>
-                  ))}
-                  {/* Add day button */}
+            <div className='flex items-center gap-2 px-4 py-3 border-b border-border bg-muted/30'>
+              <span className='text-sm font-medium shrink-0'>Sets</span>
+              {/* Day tabs — scrollable if many days */}
+              <div className='flex bg-muted rounded-md p-0.5 gap-0.5 overflow-x-auto flex-1 min-w-0'>
+                {days.map((day) => (
                   <button
-                    onClick={() => setActiveDay(Math.max(...days) + 1)}
-                    className='h-6 px-2 rounded text-xs text-muted-foreground hover:text-foreground transition-colors'
-                    title='Add day'
+                    key={day}
+                    onClick={() => setActiveDay(day)}
+                    className={cn(
+                      'h-6 px-2.5 rounded text-xs font-medium transition-colors shrink-0',
+                      activeDay === day
+                        ? 'bg-background text-foreground shadow-sm'
+                        : 'text-muted-foreground hover:text-foreground',
+                    )}
                   >
-                    <Plus className='w-3 h-3' />
+                    Day {day}
                   </button>
-                </div>
+                ))}
+                {/* Add day button */}
+                <button
+                  onClick={() => setActiveDay(Math.max(...days) + 1)}
+                  className='h-6 px-2 rounded text-xs text-muted-foreground hover:text-foreground transition-colors shrink-0'
+                  title='Add day'
+                >
+                  <Plus className='w-3 h-3' />
+                </button>
               </div>
               <button
                 onClick={() => setShowSetForm(!showSetForm)}
-                className='flex items-center gap-1.5 h-7 px-3 rounded-md bg-primary text-primary-foreground text-xs font-medium hover:opacity-90 transition-opacity'
+                className='flex items-center gap-1.5 h-7 px-3 rounded-md bg-primary text-primary-foreground text-xs font-medium hover:opacity-90 transition-opacity shrink-0'
               >
                 <Plus className='w-3 h-3' />
-                Add Set
+                <span className='hidden sm:inline'>Add Set</span>
+                <span className='sm:hidden'>Add</span>
               </button>
             </div>
 
@@ -284,7 +283,7 @@ export function ScheduleAdminPage() {
                   onSubmit={setForm.handleSubmit(onCreateSet)}
                   className='space-y-3'
                 >
-                  <div className='grid grid-cols-2 gap-3'>
+                  <div className='grid grid-cols-1 sm:grid-cols-2 gap-3'>
                     {/* Stage */}
                     <div className='space-y-1'>
                       <label className='text-xs font-medium text-muted-foreground'>
@@ -332,7 +331,7 @@ export function ScheduleAdminPage() {
                     </div>
                   </div>
 
-                  <div className='grid grid-cols-3 gap-3'>
+                  <div className='grid grid-cols-1 sm:grid-cols-3 gap-3'>
                     {/* Day */}
                     <div className='space-y-1'>
                       <label className='text-xs font-medium text-muted-foreground'>
