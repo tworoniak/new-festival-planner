@@ -110,9 +110,10 @@ export function ScheduleAdminPage() {
       <div className='flex items-center gap-3 mb-6'>
         <button
           onClick={() => navigate('/admin/festivals')}
+          aria-label='Back to festivals'
           className='w-8 h-8 rounded-md border border-border flex items-center justify-center hover:bg-muted transition-colors'
         >
-          <ArrowLeft className='w-4 h-4' />
+          <ArrowLeft aria-hidden='true' className='w-4 h-4' />
         </button>
         <div>
           <h1 className='text-xl font-medium'>
@@ -132,9 +133,11 @@ export function ScheduleAdminPage() {
               <span className='text-sm font-medium'>Stages</span>
               <button
                 onClick={() => setShowStageForm(!showStageForm)}
+                aria-label={showStageForm ? 'Cancel adding stage' : 'Add stage'}
+                aria-expanded={showStageForm}
                 className='w-7 h-7 rounded-md border border-border flex items-center justify-center hover:bg-muted transition-colors'
               >
-                <Plus className='w-3.5 h-3.5' />
+                <Plus aria-hidden='true' className='w-3.5 h-3.5' />
               </button>
             </div>
 
@@ -260,10 +263,10 @@ export function ScheduleAdminPage() {
                 {/* Add day button */}
                 <button
                   onClick={() => setActiveDay(Math.max(...days) + 1)}
+                  aria-label='Add new day'
                   className='h-6 px-2 rounded text-xs text-muted-foreground hover:text-foreground transition-colors shrink-0'
-                  title='Add day'
                 >
-                  <Plus className='w-3 h-3' />
+                  <Plus aria-hidden='true' className='w-3 h-3' />
                 </button>
               </div>
               <button

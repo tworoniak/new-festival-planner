@@ -91,9 +91,10 @@ export function FestivalFormPage() {
       <div className='flex items-center gap-3 mb-6'>
         <button
           onClick={() => navigate('/admin/festivals')}
+          aria-label='Back to festivals'
           className='w-8 h-8 rounded-md border border-border flex items-center justify-center hover:bg-muted transition-colors'
         >
-          <ArrowLeft className='w-4 h-4' />
+          <ArrowLeft aria-hidden='true' className='w-4 h-4' />
         </button>
         <div>
           <h1 className='text-xl font-medium'>

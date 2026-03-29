@@ -336,10 +336,10 @@ export function PlanSidebar({
             {items.length > 0 && (
               <button
                 onClick={onClear}
+                aria-label='Clear all sets from plan'
                 className='text-xs text-muted-foreground hover:text-destructive transition-colors'
-                title='Clear plan'
               >
-                <Trash2 className='w-3.5 h-3.5' />
+                <Trash2 aria-hidden='true' className='w-3.5 h-3.5' />
               </button>
             )}
             <button
@@ -425,9 +425,10 @@ export function PlanSidebar({
                     </div>
                     <button
                       onClick={() => onRemove(item.setId)}
+                      aria-label={`Remove ${item.set.artist.name} from plan`}
                       className='text-muted-foreground hover:text-destructive transition-colors shrink-0 mt-0.5'
                     >
-                      <X className='w-3.5 h-3.5' />
+                      <X aria-hidden='true' className='w-3.5 h-3.5' />
                     </button>
                   </div>
                 );

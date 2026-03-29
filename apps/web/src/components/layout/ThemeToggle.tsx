@@ -13,12 +13,12 @@ export function ThemeToggle({ className }: { className?: string }) {
         'text-muted-foreground hover:text-foreground hover:bg-muted transition-colors',
         className,
       )}
-      title={dark ? 'Switch to light mode' : 'Switch to dark mode'}
+      aria-label={dark ? 'Switch to light mode' : 'Switch to dark mode'}
     >
       {dark ? (
-        <Sun className='w-3.5 h-3.5' />
+        <Sun aria-hidden='true' className='w-3.5 h-3.5' />
       ) : (
-        <Moon className='w-3.5 h-3.5' />
+        <Moon aria-hidden='true' className='w-3.5 h-3.5' />
       )}
     </button>
   );

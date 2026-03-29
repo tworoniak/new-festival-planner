@@ -148,10 +148,10 @@ export function FestivalsAdminPage() {
                         onClick={() =>
                           navigate(`/admin/festivals/${festival.id}/edit`)
                         }
+                        aria-label={`Edit ${festival.name}`}
                         className='w-8 h-8 rounded-md border border-border flex items-center justify-center hover:bg-muted transition-colors'
-                        title='Edit'
                       >
-                        <Pencil className='w-3.5 h-3.5' />
+                        <Pencil aria-hidden='true' className='w-3.5 h-3.5' />
                       </button>
                       {confirmDelete === festival.id ? (
                         <div className='flex items-center gap-1'>
@@ -171,10 +171,10 @@ export function FestivalsAdminPage() {
                       ) : (
                         <button
                           onClick={() => setConfirmDelete(festival.id)}
+                          aria-label={`Delete ${festival.name}`}
                           className='w-8 h-8 rounded-md border border-border flex items-center justify-center hover:bg-destructive/10 hover:border-destructive/30 hover:text-destructive transition-colors'
-                          title='Delete'
                         >
-                          <Trash2 className='w-3.5 h-3.5' />
+                          <Trash2 aria-hidden='true' className='w-3.5 h-3.5' />
                         </button>
                       )}
                     </div>
