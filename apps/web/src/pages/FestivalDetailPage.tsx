@@ -216,11 +216,12 @@ export function FestivalDetailPage() {
 
           {/* Day selector */}
           {days.length > 1 && (
-            <div className='flex items-center gap-2 mt-4'>
+            <div role='group' aria-label='Select day' className='flex items-center gap-2 mt-4'>
               {days.map((day) => (
                 <button
                   key={day}
                   onClick={() => setActiveDay(day)}
+                  aria-pressed={activeDay === day}
                   className={cn(
                     'px-4 py-1.5 rounded-full text-sm font-medium transition-colors',
                     activeDay === day
@@ -235,10 +236,18 @@ export function FestivalDetailPage() {
           )}
 
           {/* Stage tabs — segmented pill */}
-          <div className='flex bg-muted rounded-lg p-1 gap-1 mt-4 overflow-x-auto'>
+          <div
+            role='tablist'
+            aria-label='Select stage'
+            className='flex bg-muted rounded-lg p-1 gap-1 mt-4 overflow-x-auto'
+          >
             {festival.stages.map((stage) => (
               <button
                 key={stage.id}
+                role='tab'
+                aria-selected={currentStageId === stage.id}
+                aria-controls={`tabpanel-stage-${stage.id}`}
+                id={`tab-stage-${stage.id}`}
                 onClick={() => setActiveStageId(stage.id)}
                 className={cn(
                   'flex-1 min-w-fit px-4 py-2 rounded-md text-sm font-medium transition-colors whitespace-nowrap',
@@ -258,6 +267,11 @@ export function FestivalDetailPage() {
           </h3>
 
           {/* Set list */}
+          <div
+            role='tabpanel'
+            id={`tabpanel-stage-${currentStageId}`}
+            aria-labelledby={`tab-stage-${currentStageId}`}
+          >
           {currentSets.length === 0 ? (
             <div className='text-sm text-muted-foreground py-8 text-center'>
               No sets scheduled for this stage on Day {activeDay}.
@@ -381,6 +395,7 @@ export function FestivalDetailPage() {
               })}
             </motion.div>
           )}
+          </div>
         </div>
       </div>
     </PageTransition>

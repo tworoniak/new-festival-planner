@@ -67,18 +67,19 @@ export function FestivalsAdminPage() {
       {festivals && (
         <div className='border border-border rounded-lg overflow-hidden'>
           <table className='w-full text-sm'>
+            <caption className='sr-only'>Festivals</caption>
             <thead>
               <tr className='border-b border-border bg-muted/50'>
-                <th className='text-left px-4 py-3 font-medium text-muted-foreground'>
+                <th scope='col' className='text-left px-4 py-3 font-medium text-muted-foreground'>
                   Festival
                 </th>
-                <th className='text-left px-4 py-3 font-medium text-muted-foreground hidden md:table-cell'>
+                <th scope='col' className='text-left px-4 py-3 font-medium text-muted-foreground hidden md:table-cell'>
                   Location
                 </th>
-                <th className='text-left px-4 py-3 font-medium text-muted-foreground hidden md:table-cell'>
+                <th scope='col' className='text-left px-4 py-3 font-medium text-muted-foreground hidden md:table-cell'>
                   Dates
                 </th>
-                <th className='text-right px-4 py-3 font-medium text-muted-foreground'>
+                <th scope='col' className='text-right px-4 py-3 font-medium text-muted-foreground'>
                   Actions
                 </th>
               </tr>

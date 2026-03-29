@@ -373,19 +373,21 @@ export function PlanSidebar({
           </div>
         )}
 
+        <ul>
         {days.map((day) => (
-          <div key={day}>
+          <li key={day}>
             <div className='px-4 pt-4 pb-1'>
               <span className='text-xs font-medium text-muted-foreground uppercase tracking-wide'>
                 Day {day}
               </span>
             </div>
+            <ul>
             {sorted
               .filter((item) => item.set.day === day)
               .map((item) => {
                 const isConflict = conflictIds.has(item.set.id);
                 return (
-                  <div
+                  <li
                     key={item.setId}
                     className={cn(
                       'flex items-start gap-3 px-4 py-3 border-b border-border last:border-0',
@@ -430,11 +432,13 @@ export function PlanSidebar({
                     >
                       <X aria-hidden='true' className='w-3.5 h-3.5' />
                     </button>
-                  </div>
+                  </li>
                 );
               })}
-          </div>
+            </ul>
+          </li>
         ))}
+        </ul>
       </aside>
     </>
   );
